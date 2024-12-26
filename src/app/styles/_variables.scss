@@ -1,0 +1,15 @@
+:root {
+  --primary-color: #805BB5;
+  --primary-light: #9B7BC6;
+  --primary-dark: #654894;
+  --text-color: #333333;
+  --background-light: #F8F5FF;
+  --accent-color: #FF6B6B;
+}
+
+body {
+  margin: 0;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  color: var(--text-color);
+  line-height: 1.6;
+}
