@@ -1,0 +1,23 @@
+<div class="timeline">
+  <h2>Nossa História</h2>
+
+  <div class="timeline-container">
+    <div class="timeline-event" *ngFor="let event of events">
+      <div class="event-date">{{event.date}}</div>
+      <div class="event-content">
+        <div class="event-header">
+          <h3>{{event.title}}</h3>
+          <div class="event-actions">
+            <button class="action-btn edit" title="Editar">✎</button>
+            <button class="action-btn delete" title="Excluir">×</button>
+          </div>
+        </div>
+        <p>{{event.description}}</p>
+      </div>
+    </div>
+  </div>
+
+  <button class="add-event-btn">
+    <span>+</span> Adicionar Momento
+  </button>
+</div>

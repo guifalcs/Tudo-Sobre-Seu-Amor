@@ -1,0 +1,52 @@
+<div class="auth-container">
+  <div class="auth-card">
+    <h2>Criar Conta</h2>
+    <form (ngSubmit)="onSubmit()" #signupForm="ngForm">
+      <div class="form-group">
+        <label for="name">Nome</label>
+        <input
+          type="text"
+          id="name"
+          name="name"
+          [(ngModel)]="signupData.name"
+          required
+        >
+      </div>
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          [(ngModel)]="signupData.email"
+          required
+          email
+        >
+      </div>
+      <div class="form-group">
+        <label for="password">Senha</label>
+        <input
+          type="password"
+          id="password"
+          name="password"
+          [(ngModel)]="signupData.password"
+          required
+        >
+      </div>
+      <div class="form-group">
+        <label for="confirmPassword">Confirmar Senha</label>
+        <input
+          type="password"
+          id="confirmPassword"
+          name="confirmPassword"
+          [(ngModel)]="signupData.confirmPassword"
+          required
+        >
+      </div>
+      <button type="submit" [disabled]="!signupForm.valid">Criar Conta</button>
+    </form>
+    <p class="auth-link">
+      Já tem uma conta? <a routerLink="/login">Entrar</a>
+    </p>
+  </div>
+</div>

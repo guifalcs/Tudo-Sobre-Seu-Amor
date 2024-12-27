@@ -1,0 +1,80 @@
+.dashboard {
+  margin-top: 4em;
+  padding: 2rem;
+  background: var(--background-light);
+  min-height: 100vh;
+
+  .dashboard-header {
+    background: white;
+    padding: 2rem;
+    border-radius: 20px;
+    margin-bottom: 2rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    h1 {
+      color: var(--primary-color);
+      margin: 0;
+      font-size: 2rem;
+    }
+
+    .relationship-counter {
+      text-align: right;
+
+      .counter-value {
+        display: block;
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: var(--accent-color);
+      }
+
+      .counter-label {
+        color: var(--text-color);
+        font-size: 0.9rem;
+      }
+    }
+  }
+
+  .dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); // Changed to 2 columns
+    gap: 2rem;
+  }
+
+  .dashboard-item {
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s ease;
+
+    &:hover {
+      transform: translateY(-5px);
+    }
+  }
+}
+
+@media (max-width: 1200px) {
+  .dashboard {
+    .dashboard-grid {
+      grid-template-columns: 1fr; // Single column on smaller screens
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .dashboard {
+    padding: 1rem;
+
+    .dashboard-header {
+      flex-direction: column;
+      text-align: center;
+      gap: 1rem;
+
+      .relationship-counter {
+        text-align: center;
+      }
+    }
+  }
+}

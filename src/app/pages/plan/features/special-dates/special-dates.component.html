@@ -1,0 +1,52 @@
+<div class="special-dates">
+  <h2>Datas Especiais</h2>
+
+  <div class="next-date">
+    <h3>Próxima Data Especial</h3>
+    <div class="next-date-card">
+      <div class="date-info">
+        <span class="date-title">{{nextDate.title}}</span>
+        <span class="date-value">{{nextDate.date}}</span>
+      </div>
+      <div class="countdown">
+        <span class="days">{{nextDate.daysLeft}}</span>
+        <span class="label">dias</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="dates-list">
+    <div class="date-item" *ngFor="let date of specialDates">
+      <span class="date-title">{{date.title}}</span>
+      <span class="date-value">{{date.date}}</span>
+      <div class="date-actions">
+        <button class="action-btn edit" title="Editar">✎</button>
+        <button class="action-btn delete" title="Excluir">×</button>
+      </div>
+    </div>
+  </div>
+
+  <button class="add-date-btn" (click)="openAddDateModal()">
+    <span>+</span> Adicionar Data Especial
+  </button>
+
+  <app-modal
+    [isOpen]="isAddDateModalOpen"
+    title="Adicionar Data Especial"
+    (close)="closeAddDateModal()">
+    <form class="add-date-form">
+      <div class="form-group">
+        <label for="dateTitle">Título</label>
+        <input type="text" id="dateTitle" placeholder="Ex: Primeiro Encontro">
+      </div>
+      <div class="form-group">
+        <label for="dateValue">Data</label>
+        <input type="date" id="dateValue">
+      </div>
+      <div class="form-actions">
+        <button type="button" class="cancel-btn" (click)="closeAddDateModal()">Cancelar</button>
+        <button type="submit" class="submit-btn">Adicionar</button>
+      </div>
+    </form>
+  </app-modal>
+</div>

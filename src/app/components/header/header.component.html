@@ -1,19 +1,19 @@
 <header class="header">
   <div class="header-container">
     <div class="logo">
-      <img src="assets/logo.svg" alt="Tudo Sobre Seu Amor" />
+      <a routerLink=""><img src="logo.png" alt="Tudo Sobre Seu Amor" /></a>
     </div>
     <nav class="nav-menu">
       <ul>
-        <li><a href="#inicio">Início</a></li>
+        <li><a routerLink="">Início</a></li>
         <li><a href="#recursos">Recursos</a></li>
         <li><a href="#planos">Planos</a></li>
         <li><a href="#contato">Contato</a></li>
       </ul>
     </nav>
     <div class="auth-buttons">
-      <button class="login-btn">Entrar</button>
-      <button class="signup-btn">Cadastrar</button>
+      <button class="login-btn" routerLink="/login">Entrar</button>
+      <button class="signup-btn" routerLink="/signup">Cadastrar</button>
     </div>
   </div>
 </header>

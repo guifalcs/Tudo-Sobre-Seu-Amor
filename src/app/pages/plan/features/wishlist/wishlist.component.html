@@ -1,0 +1,20 @@
+<div class="wishlist">
+  <h2>Lista de Desejos</h2>
+
+  <div class="wishes-container">
+    <div class="wish-item" *ngFor="let wish of wishes" [class]="'priority-' + wish.priority">
+      <div class="wish-content">
+        <h3>{{wish.title}}</h3>
+        <a [href]="wish.link" target="_blank" class="wish-link">Ver mais</a>
+      </div>
+      <div class="wish-actions">
+        <button class="action-btn complete">✓</button>
+        <button class="action-btn edit">✎</button>
+      </div>
+    </div>
+  </div>
+
+  <button class="add-wish-btn">
+    <span>+</span> Adicionar Desejo
+  </button>
+</div>

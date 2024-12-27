@@ -1,0 +1,18 @@
+<div class="love-map">
+  <h2>Mapa do Amor</h2>
+
+  <div class="places-list">
+    <div class="place-card" *ngFor="let place of places">
+      <div class="place-icon">{{place.icon}}</div>
+      <div class="place-content">
+        <h3>{{place.name}}</h3>
+        <span class="place-type">{{place.type}}</span>
+        <p class="place-address">{{place.address}}</p>
+      </div>
+    </div>
+  </div>
+
+  <button class="add-place-btn">
+    <span>+</span> Adicionar Local Especial
+  </button>
+</div>
