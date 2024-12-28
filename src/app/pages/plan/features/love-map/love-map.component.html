@@ -12,7 +12,46 @@
     </div>
   </div>
 
-  <button class="add-place-btn">
+  <button class="add-place-btn" (click)="openAddPlaceModal()">
     <span>+</span> Adicionar Local Especial
   </button>
+
+  <app-modal
+    [isOpen]="isAddPlaceModalOpen"
+    title="Adicionar Local Especial"
+    (close)="closeAddPlaceModal()">
+    <form  class="add-place-form" (ngSubmit)="addPlace()" #placeForm="ngForm">
+      <div class="form-group">
+        <label for="placeName">Nome do Local</label>
+        <input
+          type="text"
+          id="placeName"
+          name="name"
+          [(ngModel)]="newPlace.name"
+          required>
+      </div>
+      <div class="form-group">
+        <label for="placeType">Tipo</label>
+        <input
+          type="text"
+          id="placeType"
+          name="type"
+          [(ngModel)]="newPlace.type"
+          required>
+      </div>
+      <div class="form-group">
+        <label for="placeAddress">Endereço</label>
+        <input
+          type="text"
+          id="placeAddress"
+          name="address"
+          [(ngModel)]="newPlace.address"
+          required>
+      </div>
+      <div class="form-actions">
+        <button type="button" class="cancel-btn" (click)="closeAddPlaceModal()">Cancelar</button>
+        <button type="submit" class="submit-btn" [disabled]="!placeForm.valid">Adicionar</button>
+      </div>
+    </form>
+  </app-modal>
 </div>

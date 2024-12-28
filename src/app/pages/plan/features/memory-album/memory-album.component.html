@@ -17,10 +17,49 @@
       </div>
     </div>
     <div class="add-memory-card">
-      <button class="add-memory-btn">
+      <button class="add-memory-btn" (click)="openAddMemoryModal()">
         <span>+</span>
         <p>Adicionar Memória</p>
       </button>
     </div>
   </div>
+
+  <app-modal
+    [isOpen]="isAddMemoryModalOpen"
+    title="Adicionar Memória"
+    (close)="closeAddMemoryModal()">
+    <form  class="add-memory-form" (ngSubmit)="addMemory()" #memoryForm="ngForm">
+      <div class="form-group">
+        <label for="memoryTitle">Título</label>
+        <input
+          type="text"
+          id="memoryTitle"
+          name="title"
+          [(ngModel)]="newMemory.title"
+          required>
+      </div>
+      <div class="form-group">
+        <label for="memoryDate">Data</label>
+        <input
+          type="date"
+          id="memoryDate"
+          name="date"
+          [(ngModel)]="newMemory.date"
+          required>
+      </div>
+      <div class="form-group">
+        <label for="memoryImage">URL da Imagem</label>
+        <input
+          type="text"
+          id="memoryImage"
+          name="imageUrl"
+          [(ngModel)]="newMemory.imageUrl"
+          required>
+      </div>
+      <div class="form-actions">
+        <button type="button" class="cancel-btn" (click)="closeAddMemoryModal()">Cancelar</button>
+        <button type="submit" class="submit-btn" [disabled]="!memoryForm.valid">Adicionar</button>
+      </div>
+    </form>
+  </app-modal>
 </div>

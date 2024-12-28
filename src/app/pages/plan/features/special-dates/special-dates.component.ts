@@ -26,7 +26,8 @@ export class SpecialDatesComponent {
   };
 
   openAddDateModal() {
-    this.isAddDateModalOpen = true;
+    this.isAddDateModalOpen? this.isAddDateModalOpen = false : this.isAddDateModalOpen = true;
+
   }
 
   closeAddDateModal() {
