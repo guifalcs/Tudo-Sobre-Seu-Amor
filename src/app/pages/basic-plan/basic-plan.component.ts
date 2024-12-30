@@ -12,23 +12,23 @@ import { PlanDetailsCardComponent } from '../../components/plan-details-card/pla
 })
 export class BasicPlanComponent {
   summaryFeatures = [
-    'Calendário de datas',
-    'Álbum de fotos',
-    'Lembretes básicos'
+    'Contador do tempo',
+    'Lembrete de aniversário',
+    'Cadastro de 3 datas especiais'
   ];
 
   detailedFeatures = [
     {
-      title: 'Calendário de Datas',
-      description: 'Mantenha todas as datas importantes organizadas em um só lugar. Aniversários, comemorações e momentos especiais sempre à mão.'
+      title: 'Contador do tempo',
+      description: 'Visualize exatamente quanto tempo de relacionamento você tem, em anos, meses e dias.'
     },
     {
-      title: 'Álbum de Fotos',
-      description: 'Armazene e organize suas fotos favoritas em álbuns temáticos. Reviva momentos especiais quando quiser.'
+      title: 'Lembrete de aniversário',
+      description: 'Receba um email no dia do seu aniversário de relacionamento para você não esquecer essa data especial.'
     },
     {
-      title: 'Lembretes Básicos',
-      description: 'Receba notificações para não esquecer nenhuma data importante do seu relacionamento.'
+      title: 'Cadastro de 3 datas especiais',
+      description: 'Cadastre na plataforma até 3 datas especiais do seu relacionamento, como o dia que se conheceram, a data do primeiro beijo, etc. Visualize no dashboard qual delas é próxima a fazer aniversário, vendo sempre quanto tempo falta para ela chegar'
     }
   ];
 }

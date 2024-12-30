@@ -13,27 +13,28 @@ import { PlanDetailsCardComponent } from '../../components/plan-details-card/pla
 export class RomanticoPlanComponent {
   summaryFeatures = [
     'Tudo do plano Básico',
-    'Lista de desejos',
-    'Lembretes personalizados',
-    'Diário digital'
+    'Linha do tempo',
+    'Lista de Desejos',
+    'Cadastro de 5 datas epeciais',
+    'Lembretes de todas as datas especiais',
   ];
 
   detailedFeatures = [
     {
+      title: 'Linha do tempo',
+      description: 'Crie a cronologia do seu relacionamento, cadastrando cada momento especial que vocês viveram juntos em uma linha do tempo personalizada.'
+    },
+    {
       title: 'Lista de Desejos',
-      description: 'Crie e compartilhe listas de desejos para presentes, encontros e surpresas especiais.'
+      description: 'Faça uma lista de tudo o que vocês desejam, podendo anexar links específicos para cada item. Além disso, cheque se o sonho foi realizado ou não'
     },
     {
-      title: 'Lembretes Personalizados',
-      description: 'Configure lembretes avançados com mensagens personalizadas, frequência e tipos de notificação.'
+      title: 'Cadastro de 5 datas especiais',
+      description: 'Cadastre na plataforma até 5 datas especiais do seu relacionamento, como o dia que se conheceram, a data do primeiro beijo, etc. Visualize no dashboard qual delas é próxima a fazer aniversário, vendo sempre quanto tempo falta para ela chegar'
     },
     {
-      title: 'Diário Digital',
-      description: 'Registre momentos especiais com texto, fotos e vídeos em um diário digital privado.'
-    },
-    {
-      title: 'Recursos Avançados',
-      description: 'Acesso a recursos premium como temas personalizados e backup na nuvem.'
+      title: 'Lembretes de todas as datas especiais',
+      description: 'Receba no seu email sempre que uma data especial cadastrada fizer aniversário.'
     }
   ];
 }

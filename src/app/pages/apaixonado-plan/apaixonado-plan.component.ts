@@ -13,27 +13,29 @@ import { PlanDetailsCardComponent } from '../../components/plan-details-card/pla
 export class ApaixonadoPlanComponent {
   summaryFeatures = [
     'Tudo do plano Premium',
-    'Acesso para 2 pessoas',
-    'Chat privado',
-    'Planejador de encontros'
+    'Álbum de memórias',
+    'Mapa do amor',
+    'Todos os lembretes da plataforma',
+    'Cadastro de até 15 datas especiais',
+    'Recebimento de conquistas'
   ];
 
   detailedFeatures = [
     {
-      title: 'Acesso para 2 Pessoas',
-      description: 'Compartilhe a experiência com seu parceiro(a). Cada um tem seu próprio login e acesso personalizado.'
+      title: 'Álbum de memórias',
+      description: 'Salve algumas das suas fotos favoritas, relembrando dos momentos mais preciosos que vocês viveram juntos.'
     },
     {
-      title: 'Chat Privado',
-      description: 'Comunique-se de forma segura e romântica com chat exclusivo para o casal.'
+      title: 'Mapa do amor',
+      description: 'Lembre dos locais mais marcantes para vocês, eternizando em suas memórias onde seus momentos incríveis aconteceram.'
     },
     {
-      title: 'Planejador de Encontros',
-      description: 'Organize encontros especiais com sugestões personalizadas baseadas em seus gostos.'
+      title: 'Todos os lembretes da plataforma',
+      description: 'Receba lembretes em seu email 1 mês, 1 semana e 1 dia antes do seu aniverário de relacionamento, para você poder preparar uma surpresa para sua companhia favorita.'
     },
     {
-      title: 'Recursos Exclusivos',
-      description: 'Acesso a recursos exclusivos para casais como álbuns compartilhados e metas conjuntas.'
+      title: 'Recebimento de conquistas',
+      description: 'Receba conquistas com o passar do tempo do seu relacionamento.'
     }
   ];
 }
