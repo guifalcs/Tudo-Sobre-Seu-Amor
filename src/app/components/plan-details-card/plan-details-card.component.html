@@ -1,0 +1,12 @@
+<div class="plan-details-card">
+  <h2>Detalhes do Plano</h2>
+  <div class="features-grid">
+    <div class="feature" *ngFor="let feature of features">
+      <h3>{{feature.title}}</h3>
+      <p>{{feature.description}}</p>
+    </div>
+  </div>
+  <button class="subscribe-btn">
+    Assinar Agora
+  </button>
+</div>

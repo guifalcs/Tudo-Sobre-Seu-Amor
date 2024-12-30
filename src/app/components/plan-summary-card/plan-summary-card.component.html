@@ -1,0 +1,14 @@
+<div class="plan-summary-card" [class.popular]="isPopular">
+  <div class="popular-tag" *ngIf="isPopular">Mais Popular</div>
+  <h2>{{title}}</h2>
+  <div class="price">
+    <span class="amount">{{price}}</span>
+    <span class="period">/mês</span>
+  </div>
+  <ul class="features">
+    <li *ngFor="let feature of features">
+      <span class="icon">✓</span>
+      {{feature}}
+    </li>
+  </ul>
+</div>

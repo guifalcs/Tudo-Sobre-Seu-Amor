@@ -1,0 +1,19 @@
+.plan-page {
+  min-height: 100vh;
+  padding: 4rem 2rem;
+  margin-top: 4rem;
+  background: var(--background-light);
+}
+
+.plan-grid {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 350px 1fr;
+  gap: 2rem;
+  align-items: start;
+
+  @media (max-width: 968px) {
+    grid-template-columns: 1fr;
+  }
+}
