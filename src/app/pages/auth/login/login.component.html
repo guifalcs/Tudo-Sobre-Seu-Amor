@@ -1,14 +1,14 @@
 <div class="auth-container">
   <div class="auth-card">
     <h2>Entrar</h2>
-    <form (ngSubmit)="onSubmit()" #loginForm="ngForm">
+    <form [formGroup]="loginForm" (ngSubmit)="fazerLogin()">
       <div class="form-group">
         <label for="email">Email</label>
         <input
           type="email"
           id="email"
           name="email"
-          [(ngModel)]="loginData.email"
+          formControlName='email'
           required
           email
         >
@@ -19,7 +19,7 @@
           type="password"
           id="password"
           name="password"
-          [(ngModel)]="loginData.password"
+          formControlName='password'
           required
         >
       </div>

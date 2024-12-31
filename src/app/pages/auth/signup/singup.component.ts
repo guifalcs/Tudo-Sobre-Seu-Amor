@@ -1,24 +1,46 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
-import { FormsModule } from '@angular/forms';
+import { Router, RouterModule } from '@angular/router';
+import { FormGroup, FormControl, ReactiveFormsModule } from '@angular/forms';
+import { AuthService } from '../../../services/auth.service';
 
 @Component({
   selector: 'app-signup',
   standalone: true,
-  imports: [CommonModule, RouterModule, FormsModule],
+  imports: [CommonModule, RouterModule, ReactiveFormsModule],
   templateUrl: './signup.component.html',
-  styleUrls: ['./signup.component.scss']
+  styleUrls: ['./signup.component.scss'],
 })
 export class SignupComponent {
-  signupData = {
-    name: '',
-    email: '',
-    password: '',
-    confirmPassword: ''
-  };
+  signupForm: FormGroup;
 
-  onSubmit() {
-    console.log('Signup attempt:', this.signupData);
+  constructor(private auth: AuthService, private router: Router) {
+    this.signupForm = new FormGroup({
+      name: new FormControl(''),
+      email: new FormControl(''),
+      password: new FormControl(''),
+      confirmPassword: new FormControl(''),
+    });
+  }
+
+  cadastrar() {
+    const loginData = this.signupForm.value;
+
+    if (loginData.password !== loginData.confirmPassword) {
+      this.signupForm.reset();
+      return alert('As senhas precisam ser iguais');
+    }
+
+    this.auth
+      .signup(loginData.name, loginData.email, loginData.password)
+      .subscribe({
+        next: (response) => {},
+        error: (e) => {
+          alert(e.error.message);
+        },
+        complete: () => {},
+      });
+
+    this.signupForm.reset();
   }
 }

@@ -1,14 +1,14 @@
 <div class="auth-container">
   <div class="auth-card">
     <h2>Criar Conta</h2>
-    <form (ngSubmit)="onSubmit()" #signupForm="ngForm">
+    <form [formGroup]="signupForm" (ngSubmit)="cadastrar()">
       <div class="form-group">
         <label for="name">Nome</label>
         <input
           type="text"
           id="name"
           name="name"
-          [(ngModel)]="signupData.name"
+          formControlName="name"
           required
         >
       </div>
@@ -18,7 +18,7 @@
           type="email"
           id="email"
           name="email"
-          [(ngModel)]="signupData.email"
+          formControlName="email"
           required
           email
         >
@@ -29,7 +29,7 @@
           type="password"
           id="password"
           name="password"
-          [(ngModel)]="signupData.password"
+          formControlName="password"
           required
         >
       </div>
@@ -39,7 +39,7 @@
           type="password"
           id="confirmPassword"
           name="confirmPassword"
-          [(ngModel)]="signupData.confirmPassword"
+          formControlName="confirmPassword"
           required
         >
       </div>
