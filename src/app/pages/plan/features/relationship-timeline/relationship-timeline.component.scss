@@ -122,4 +122,64 @@
       margin-right: 0.5rem;
     }
   }
+
+  .add-timeline-form {
+    .form-group {
+      margin-bottom: 1.5rem;
+
+      label {
+        display: block;
+        margin-bottom: 0.5rem;
+        color: var(--text-color);
+        font-weight: 500;
+      }
+
+      input {
+        width: 100%;
+        padding: 0.8rem;
+        border: 2px solid #eee;
+        border-radius: 10px;
+        transition: border-color 0.3s ease;
+
+        &:focus {
+          outline: none;
+          border-color: var(--primary-light);
+        }
+      }
+    }
+
+    .form-actions {
+      display: flex;
+      gap: 1rem;
+      justify-content: flex-end;
+
+      button {
+        padding: 0.8rem 1.5rem;
+        border-radius: 10px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .cancel-btn {
+        background: #eee;
+        border: none;
+        color: var(--text-color);
+
+        &:hover {
+          background: #ddd;
+        }
+      }
+
+      .submit-btn {
+        background: var(--primary-color);
+        border: none;
+        color: white;
+
+        &:hover {
+          background: var(--primary-dark);
+        }
+      }
+    }
+  }
 }

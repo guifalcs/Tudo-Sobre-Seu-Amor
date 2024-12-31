@@ -17,7 +17,46 @@
     </div>
   </div>
 
-  <button class="add-event-btn">
+  <button class="add-event-btn" (click)="openAddEventModal()">
     <span>+</span> Adicionar Momento
   </button>
+
+  <app-modal
+    [isOpen]="isAddEventModalOpen"
+    title="Adicionar Momento"
+    (close)="closeAddEventModal()">
+    <form class="add-timeline-form" (ngSubmit)="addEvent()" #eventForm="ngForm">
+      <div class="form-group">
+        <label for="eventTitle">Título</label>
+        <input
+          type="text"
+          id="eventTitle"
+          name="title"
+          [(ngModel)]="newEvent.title"
+          required>
+      </div>
+      <div class="form-group">
+        <label for="eventDate">Data</label>
+        <input
+          type="date"
+          id="eventDate"
+          name="date"
+          [(ngModel)]="newEvent.date"
+          required>
+      </div>
+      <div class="form-group">
+        <label for="eventDescription">Descrição</label>
+        <textarea
+          id="eventDescription"
+          name="description"
+          [(ngModel)]="newEvent.description"
+          required
+          rows="4"></textarea>
+      </div>
+      <div class="form-actions">
+        <button type="button" class="cancel-btn" (click)="closeAddEventModal()">Cancelar</button>
+        <button type="submit" class="submit-btn" [disabled]="!eventForm.valid">Adicionar</button>
+      </div>
+    </form>
+  </app-modal>
 </div>

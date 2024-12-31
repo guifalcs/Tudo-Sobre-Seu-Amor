@@ -14,7 +14,49 @@
     </div>
   </div>
 
-  <button class="add-wish-btn">
+  <button class="add-wish-btn" (click)="openAddWishModal()">
     <span>+</span> Adicionar Desejo
   </button>
+
+  <app-modal
+    [isOpen]="isAddWishModalOpen"
+    title="Adicionar Desejo"
+    (close)="closeAddWishModal()">
+    <form class="add-wish-form" (ngSubmit)="addWish()" #wishForm="ngForm">
+      <div class="form-group">
+        <label for="wishTitle">Título</label>
+        <input
+          type="text"
+          id="wishTitle"
+          name="title"
+          [(ngModel)]="newWish.title"
+          required>
+      </div>
+      <div class="form-group">
+        <label for="wishLink">Link</label>
+        <input
+          type="url"
+          id="wishLink"
+          name="link"
+          [(ngModel)]="newWish.link"
+          required>
+      </div>
+      <div class="form-group">
+        <label for="wishPriority">Prioridade</label>
+        <select
+          id="wishPriority"
+          name="priority"
+          [(ngModel)]="newWish.priority"
+          required>
+          <option value="low">Baixa</option>
+          <option value="medium">Média</option>
+          <option value="high">Alta</option>
+        </select>
+      </div>
+      <div class="form-actions">
+        <button type="button" class="cancel-btn" (click)="closeAddWishModal()">Cancelar</button>
+        <button type="submit" class="submit-btn" [disabled]="!wishForm.valid">Adicionar</button>
+      </div>
+    </form>
+  </app-modal>
 </div>

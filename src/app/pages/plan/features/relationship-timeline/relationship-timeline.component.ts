@@ -1,14 +1,23 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { ModalComponent } from '../../../../components/modal/modal.component';
 
 @Component({
   selector: 'app-relationship-timeline',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule, ModalComponent],
   templateUrl: './relationship-timeline.component.html',
   styleUrls: ['./relationship-timeline.component.scss']
 })
 export class RelationshipTimelineComponent {
+  isAddEventModalOpen = false;
+  newEvent = {
+    title: '',
+    date: '',
+    description: ''
+  };
+
   events = [
     {
       date: '15 Jan 2022',
@@ -31,4 +40,24 @@ export class RelationshipTimelineComponent {
       description: 'Ceia em família'
     }
   ];
+
+  openAddEventModal() {
+    this.isAddEventModalOpen? this.isAddEventModalOpen = false : this.isAddEventModalOpen = true;
+  }
+
+  closeAddEventModal() {
+    this.isAddEventModalOpen = false;
+    this.newEvent = {
+      title: '',
+      date: '',
+      description: ''
+    };
+  }
+
+  addEvent() {
+    if (this.newEvent.title && this.newEvent.date && this.newEvent.description) {
+      this.events.push({ ...this.newEvent });
+      this.closeAddEventModal();
+    }
+  }
 }
