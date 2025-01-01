@@ -34,7 +34,9 @@ export class SignupComponent {
     this.auth
       .signup(loginData.name, loginData.email, loginData.password)
       .subscribe({
-        next: (response) => {},
+        next: (response) => {
+          this.router.navigate(['/profile']);
+        },
         error: (e) => {
           alert(e.error.message);
         },

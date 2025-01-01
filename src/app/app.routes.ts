@@ -7,15 +7,18 @@ import { BasicPlanComponent } from './pages/basic-plan/basic-plan.component';
 import { RomanticoPlanComponent } from './pages/romantico-plan/romantico-plan.component';
 import { ApaixonadoPlanComponent } from './pages/apaixonado-plan/apaixonado-plan.component';
 import { InMemoryScrollingOptions } from '@angular/router';
+import { ProfileComponent } from './pages/profile/profile.component';
+import { AuthGuard } from './guards/auth.guard';
 
 export const routes: Routes = [
   {path:'', component: HomeComponent},
-  {path:'plan', component: PlanComponent},
   { path: 'login', component: LoginComponent },
   { path: 'signup', component: SignupComponent },
   { path: 'plans/basico', component: BasicPlanComponent },
   { path: 'plans/romantico', component: RomanticoPlanComponent },
-  { path: 'plans/apaixonado', component: ApaixonadoPlanComponent }
+  { path: 'plans/apaixonado', component: ApaixonadoPlanComponent },
+  { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
+  { path: 'dashboard', component: PlanComponent, canActivate: [AuthGuard] },
 ];
 
 export const scrollConfig: InMemoryScrollingOptions = {

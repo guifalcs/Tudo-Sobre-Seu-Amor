@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
+import { jwtDecode } from 'jwt-decode';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class TokenService {
-  private readonly TOKEN_KEY = 'authToken';
+  private readonly TOKEN_KEY = 'auth_app_token';
 
   getToken(): string | null {
     return localStorage.getItem(this.TOKEN_KEY);
@@ -23,9 +24,11 @@ export class TokenService {
     if (!token) return false;
 
     try {
-      const payload = JSON.parse(atob(token.split('.')[1]));
+      const payload: { exp: number, id: string } = jwtDecode(token);
+
       return payload.exp > Date.now() / 1000;
-    } catch {
+    } catch (error) {
+      console.error('Token inválido:', error);
       return false;
     }
   }

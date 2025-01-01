@@ -1,0 +1,42 @@
+<div class="profile-container">
+  <div class="loading-spinner" *ngIf="isLoading">
+    <div class="spinner"></div>
+    <p>Carregando dados do usuário...</p>
+  </div>
+
+  <div class="error-message" *ngIf="!isLoading && !user">
+    <p>Não foi possível carregar os dados do usuário.</p>
+    <button (click)="ngOnInit()">Tentar novamente</button>
+  </div>
+
+  <div class="profile-card" *ngIf="!isLoading && user">
+    <div class="profile-header">
+      <div class="avatar">{{user.user.name.charAt(0)}}</div>
+      <h1>{{user.user.name}}</h1>
+    </div>
+    <div class="profile-info">
+      <div class="info-item">
+        <label>Email</label>
+        <p>{{user.user.email}}</p>
+      </div>
+    </div>
+    <div class="profile-info">
+      <div class="info-item">
+        <label>Nome</label>
+        <p>{{user.user.name}}</p>
+      </div>
+    </div>
+    <div class="profile-info">
+      <div class="info-item">
+        <label>Plano:</label>
+        <p>{{user.user.subscription.title}}</p>
+      </div>
+    </div>
+    <div class="profile-info">
+      <div class="info-item">
+        <label>Status</label>
+        <p>{{user.user.status}}</p>
+      </div>
+    </div>
+  </div>
+</div>

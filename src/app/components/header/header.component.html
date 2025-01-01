@@ -1,19 +1,27 @@
 <header class="header">
   <div class="header-container">
     <div class="logo">
-      <a routerLink=""><img src="logo.png" alt="Tudo Sobre Seu Amor" /></a>
+      <a routerLink="/"><img src="logo.png" alt="Tudo Sobre Seu Amor" /></a>
     </div>
     <nav class="nav-menu">
       <ul>
-        <li><a routerLink="">Início</a></li>
+        <li><a href="#inicio">Início</a></li>
         <li><a href="#recursos">Recursos</a></li>
         <li><a href="#planos">Planos</a></li>
         <li><a href="#contato">Contato</a></li>
       </ul>
     </nav>
     <div class="auth-buttons">
-      <button class="login-btn" routerLink="/login">Entrar</button>
-      <button class="signup-btn" routerLink="/signup">Cadastrar</button>
+      <ng-container *ngIf="!(user); else loggedIn">
+        <button class="login-btn" routerLink="/login">Entrar</button>
+        <button class="signup-btn" routerLink="/signup">Cadastrar</button>
+      </ng-container>
+      <ng-template #loggedIn>
+        <button class="profile-btn" routerLink="/profile">
+          <span class="profile-icon">👤</span>
+        </button>
+        <button class="logout-btn" (click)="logout()">Sair</button>
+      </ng-template>
     </div>
   </div>
 </header>
