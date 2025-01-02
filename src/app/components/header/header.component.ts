@@ -32,4 +32,15 @@ export class HeaderComponent implements OnInit {
       this.router.navigate(['/']);
     }
   }
+
+  scrollToSection(sectionId: string, event?: Event) {
+    if (event) {
+      event.preventDefault();
+    }
+
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  }
 }
