@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { FormGroup, FormControl, ReactiveFormsModule } from '@angular/forms';
 import { AuthService } from '../../../services/auth.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -11,8 +12,9 @@ import { AuthService } from '../../../services/auth.service';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
 })
-export class LoginComponent {
+export class LoginComponent implements OnDestroy {
   loginForm: FormGroup;
+  private loginSubscription: Subscription | null = null
 
   constructor(private auth: AuthService, private router: Router) {
     this.loginForm = new FormGroup({
@@ -24,7 +26,7 @@ export class LoginComponent {
   fazerLogin() {
     const loginData = this.loginForm.value;
 
-    this.auth.login(loginData.email, loginData.password).subscribe({
+    this.loginSubscription = this.auth.login(loginData.email, loginData.password).subscribe({
       next: (user: any) => {
         if(user.subscription.title === 'Nenhum'){
           this.router.navigate(['getSub'])
@@ -39,5 +41,11 @@ export class LoginComponent {
     });
 
     this.loginForm.reset();
+  }
+
+  ngOnDestroy(){
+    if (this.loginSubscription) {
+      this.loginSubscription.unsubscribe();
+    }
   }
 }

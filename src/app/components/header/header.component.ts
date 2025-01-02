@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { User } from '../../models/user.model';
-import { take } from 'rxjs';
+import { take, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-header',
@@ -12,9 +12,10 @@ import { take } from 'rxjs';
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent implements OnInit, OnDestroy {
 
   user: User | null = null;
+  private currentUserSubscription: Subscription | null = null
 
   constructor(
     public authService: AuthService,
@@ -48,7 +49,7 @@ export class HeaderComponent implements OnInit {
   navigateToRelationship(event: Event) {
     event.preventDefault();
 
-    this.authService.currentUser$.pipe(take(1)).subscribe(user => {
+    this.currentUserSubscription = this.authService.currentUser$.pipe(take(1)).subscribe(user => {
       if (!user) {
         this.router.navigate(['/login']);
         return;
@@ -61,5 +62,11 @@ export class HeaderComponent implements OnInit {
 
       this.router.navigate(['/dashboard']);
     });
+  }
+
+  ngOnDestroy(){
+    if (this.currentUserSubscription) {
+      this.currentUserSubscription.unsubscribe();
+    }
   }
 }

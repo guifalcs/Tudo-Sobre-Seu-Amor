@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { FormGroup, FormControl, ReactiveFormsModule } from '@angular/forms';
 import { AuthService } from '../../../services/auth.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-signup',
@@ -11,8 +12,10 @@ import { AuthService } from '../../../services/auth.service';
   templateUrl: './signup.component.html',
   styleUrls: ['./signup.component.scss'],
 })
-export class SignupComponent {
+export class SignupComponent implements OnDestroy {
   signupForm: FormGroup;
+  private signUpSubscription: Subscription | null = null
+
 
   constructor(private auth: AuthService, private router: Router) {
     this.signupForm = new FormGroup({
@@ -31,7 +34,7 @@ export class SignupComponent {
       return alert('As senhas precisam ser iguais');
     }
 
-    this.auth
+    this.signUpSubscription = this.auth
       .signup(loginData.name, loginData.email, loginData.password)
       .subscribe({
         next: (response) => {
@@ -44,5 +47,11 @@ export class SignupComponent {
       });
 
     this.signupForm.reset();
+  }
+
+  ngOnDestroy(){
+    if (this.signUpSubscription) {
+      this.signUpSubscription.unsubscribe();
+    }
   }
 }

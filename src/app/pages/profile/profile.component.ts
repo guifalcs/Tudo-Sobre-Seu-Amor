@@ -1,9 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { finalize } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
 import { User } from '../../models/user.model';
+import { Subscription } from 'rxjs';
+
 
 @Component({
   selector: 'app-profile',
@@ -12,12 +14,13 @@ import { User } from '../../models/user.model';
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.scss']
 })
-export class ProfileComponent implements OnInit {
+export class ProfileComponent implements OnInit, OnDestroy {
   user: User | null = null;
   isLoading = true;
   isSaving = false;
   isEditMode = false;
   profileForm: FormGroup;
+  private currentUserSubscription: Subscription | null = null
 
   constructor(
     private authService: AuthService,
@@ -35,7 +38,7 @@ export class ProfileComponent implements OnInit {
 
   loadUser() {
     this.isLoading = true;
-    this.authService.getCurrentUser().subscribe({
+    this.currentUserSubscription = this.authService.getCurrentUser().subscribe({
       next: (user) => {
         this.user = user;
         if (user) {
@@ -99,5 +102,11 @@ export class ProfileComponent implements OnInit {
   isFieldInvalid(fieldName: string): boolean {
     const field = this.profileForm.get(fieldName);
     return field ? field.invalid && (field.dirty || field.touched) : false;
+  }
+
+  ngOnDestroy(){
+    if (this.currentUserSubscription) {
+      this.currentUserSubscription.unsubscribe();
+    }
   }
 }
