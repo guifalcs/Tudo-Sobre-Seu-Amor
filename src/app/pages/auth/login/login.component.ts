@@ -25,8 +25,12 @@ export class LoginComponent {
     const loginData = this.loginForm.value;
 
     this.auth.login(loginData.email, loginData.password).subscribe({
-      next: (response) => {
-        this.router.navigate(['profile'])
+      next: (user: any) => {
+        if(user.subscription.title === 'Nenhum'){
+          this.router.navigate(['getSub'])
+        } else{
+          this.router.navigate(['profile'])
+        }
       },
       error: (e) => {
         alert(e.error);

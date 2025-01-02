@@ -10,6 +10,9 @@ import { InMemoryScrollingOptions } from '@angular/router';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { AuthGuard } from './guards/auth.guard';
 import { ContactComponent } from './pages/contact/contact.component';
+import { SubscriptionGuard } from './guards/subscription.guard';
+import { NoSubComponent } from './pages/no-sub/no-sub.component';
+import { AllPlansComponent } from './pages/all-plans/all-plans.component';
 
 export const routes: Routes = [
   {path:'', component: HomeComponent},
@@ -19,8 +22,10 @@ export const routes: Routes = [
   { path: 'plans/romantico', component: RomanticoPlanComponent },
   { path: 'plans/apaixonado', component: ApaixonadoPlanComponent },
   { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
-  { path: 'dashboard', component: PlanComponent, canActivate: [AuthGuard] },
-  { path: 'contato', component: ContactComponent }
+  { path: 'dashboard', component: PlanComponent, canActivate: [AuthGuard, SubscriptionGuard] },
+  { path: 'contato', component: ContactComponent },
+  { path: 'getSub', component: NoSubComponent },
+  { path: 'plans', component: AllPlansComponent }
 ];
 
 export const scrollConfig: InMemoryScrollingOptions = {
