@@ -283,11 +283,13 @@ p {
 
 .price-card {
   background: white;
-  padding: 2rem;
+  padding: 1.5rem;
   border-radius: 20px;
   box-shadow: 0 10px 30px rgba(0,0,0,0.1);
   text-align: center;
-  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .price-card.featured {
