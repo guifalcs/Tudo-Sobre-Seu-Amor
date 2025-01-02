@@ -73,6 +73,12 @@ export class AuthService {
     return this.tokenService.isTokenValid();
   }
 
+  updateUser(userId: string, data: Partial<User>): Observable<User> {
+    return this.http.put<User>(`${environment.apiUrl}/users/${userId}`, data).pipe(
+      tap(updatedUser => this.currentUserSubject.next(updatedUser))
+    );
+  }
+
   private handleAuthentication(response: {user: User, token: string}): void {
     this.tokenService.setToken(response.token);
     this.currentUserSubject.next(response.user);

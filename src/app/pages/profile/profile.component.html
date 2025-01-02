@@ -6,37 +6,72 @@
 
   <div class="error-message" *ngIf="!isLoading && !user">
     <p>Não foi possível carregar os dados do usuário.</p>
-    <button (click)="ngOnInit()">Tentar novamente</button>
+    <button (click)="loadUser()">Tentar novamente</button>
   </div>
 
   <div class="profile-card" *ngIf="!isLoading && user">
     <div class="profile-header">
-      <div class="avatar">{{user.user.name.charAt(0)}}</div>
-      <h1>{{user.user.name}}</h1>
+      <div class="avatar">{{user.user.name.charAt(0).toUpperCase()}}</div>
+      <h1>{{user.user.name.toUpperCase()}}</h1>
+      <button class="edit-btn" (click)="toggleEditMode()" *ngIf="!isEditMode">
+        <span>✎</span> Editar Perfil
+      </button>
     </div>
-    <div class="profile-info">
-      <div class="info-item">
-        <label>Email</label>
-        <p>{{user.user.email}}</p>
-      </div>
-    </div>
-    <div class="profile-info">
-      <div class="info-item">
+
+    <div class="profile-info" *ngIf="!isEditMode">
+      <div class="info-group">
         <label>Nome</label>
         <p>{{user.user.name}}</p>
       </div>
-    </div>
-    <div class="profile-info">
-      <div class="info-item">
-        <label>Plano:</label>
+      <div class="info-group">
+        <label>Email</label>
+        <p>{{user.user.email}}</p>
+      </div>
+      <div class="info-group">
+        <label>Plano</label>
         <p>{{user.user.subscription.title}}</p>
       </div>
-    </div>
-    <div class="profile-info">
-      <div class="info-item">
+      <div class="info-group">
         <label>Status</label>
         <p>{{user.user.status}}</p>
       </div>
     </div>
+    <form [formGroup]="profileForm" (ngSubmit)="onSubmit()" class="profile-form" *ngIf="isEditMode">
+      <div class="form-group">
+        <label for="name">Nome</label>
+        <input
+          id="name"
+          type="text"
+          formControlName="name"
+          [class.error]="isFieldInvalid('name')">
+        <span class="error-message" *ngIf="isFieldInvalid('name')">
+          Nome é obrigatório
+        </span>
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input
+          id="email"
+          type="email"
+          formControlName="email"
+          [class.error]="isFieldInvalid('email')">
+        <span class="error-message" *ngIf="isFieldInvalid('email')">
+          Email inválido
+        </span>
+      </div>
+
+      <div class="form-actions">
+        <button type="button" class="cancel-btn" (click)="cancelEdit()">
+          Cancelar
+        </button>
+        <button
+          type="submit"
+          [disabled]="profileForm.invalid || profileForm.pristine || isSaving"
+          class="save-btn">
+          {{isSaving ? 'Salvando...' : 'Salvar Alterações'}}
+        </button>
+      </div>
+    </form>
   </div>
 </div>
