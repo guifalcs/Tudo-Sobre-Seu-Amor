@@ -3,13 +3,13 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
+  background: var(--background-light);
   padding: 1rem;
 }
 
 .auth-card {
   background: white;
-  padding: 2rem;
+  padding: 3rem;
   border-radius: 20px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
   width: 100%;
