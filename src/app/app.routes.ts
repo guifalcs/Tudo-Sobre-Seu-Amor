@@ -9,6 +9,7 @@ import { ApaixonadoPlanComponent } from './pages/apaixonado-plan/apaixonado-plan
 import { InMemoryScrollingOptions } from '@angular/router';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { AuthGuard } from './guards/auth.guard';
+import { ContactComponent } from './pages/contact/contact.component';
 
 export const routes: Routes = [
   {path:'', component: HomeComponent},
@@ -19,6 +20,7 @@ export const routes: Routes = [
   { path: 'plans/apaixonado', component: ApaixonadoPlanComponent },
   { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
   { path: 'dashboard', component: PlanComponent, canActivate: [AuthGuard] },
+  { path: 'contato', component: ContactComponent }
 ];
 
 export const scrollConfig: InMemoryScrollingOptions = {
