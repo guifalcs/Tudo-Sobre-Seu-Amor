@@ -5,8 +5,8 @@
     </div>
     <nav class="nav-menu">
       <ul>
-        <li><a *ngIf="user!.user.subscription.title != 'Nenhum'" routerLink="/dashboard">Meu relacionamento</a></li>
         <li><a routerLink="/">Início</a></li>
+        <li><a routerLink="/dashboard">Meu relacionamento</a></li>
         <li><a routerLink="/" fragment="pricing" (click)="scrollToSection('pricing', $event)">Planos</a></li>
         <li><a routerLink="contato">Contato</a></li>
       </ul>

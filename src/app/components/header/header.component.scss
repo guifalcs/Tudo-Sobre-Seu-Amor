@@ -37,9 +37,14 @@
       list-style: none;
       margin: 0;
       padding: 0;
+      margin-left: 7em;
 
       @media (max-width: 768px) {
         display: none;
+      }
+
+      @media (max-width: 810px) {
+        gap: 1em;
       }
     }
 

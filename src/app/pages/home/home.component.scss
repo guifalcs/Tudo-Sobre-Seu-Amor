@@ -6,6 +6,10 @@
   padding: 4rem 1.5rem;
   background: linear-gradient(135deg, #f8f9ff 0%, #f0f2ff 100%);
   text-align: center;
+
+  @media (max-width: 925px) {
+    margin-top: 5em;
+  }
 }
 
 .hero-content {
@@ -219,6 +223,7 @@ p {
 
 .demo {
   padding: 5rem 2rem;
+  background-color: white;
 }
 
 .demo-content {
