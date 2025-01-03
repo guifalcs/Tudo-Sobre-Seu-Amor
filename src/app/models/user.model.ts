@@ -1,3 +1,5 @@
+import { Relationship } from "./relationship.model";
+
 export interface User {
   user: {
     id?: string;
@@ -7,7 +9,8 @@ export interface User {
       title: string,
       price: number
     };
-    status: string
+    status: string,
+    relationship: Relationship
   }
 }
 
