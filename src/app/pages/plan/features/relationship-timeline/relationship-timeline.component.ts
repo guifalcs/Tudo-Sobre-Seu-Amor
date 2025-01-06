@@ -11,17 +11,17 @@ import { formatDateToDDMMYYYY } from '../../../../components/formatDate';
   standalone: true,
   imports: [CommonModule, FormsModule, ModalComponent],
   templateUrl: './relationship-timeline.component.html',
-  styleUrls: ['./relationship-timeline.component.scss']
+  styleUrls: ['./relationship-timeline.component.scss'],
 })
 export class RelationshipTimelineComponent implements OnInit, OnDestroy {
   isAddEventModalOpen = false;
   newEvent = {
     title: '',
     date: '',
-    description: ''
+    description: '',
   };
-  events = signal<any[]>([])
-  subscription: any = false
+  events = signal<any[]>([]);
+  subscription: any = false;
 
   constructor(
     private timelineService: TimelineService,
@@ -30,20 +30,24 @@ export class RelationshipTimelineComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.subscription = this.authService.currentUser$.subscribe({
-
       next: (user) => {
-      if (user?.user.timeline) {
-        const sortedEvents = this.timelineService.setEvents(user.user.timeline);
-        this.events.set(sortedEvents)
-      }},
+        if (user?.user.timeline) {
+          const sortedEvents = this.timelineService.setEvents(
+            user.user.timeline
+          );
+          this.events.set(sortedEvents);
+        }
+      },
 
       error: (error) => {},
-      complete: () => {}
+      complete: () => {},
     });
   }
 
   openAddEventModal() {
-    this.isAddEventModalOpen? this.isAddEventModalOpen = false : this.isAddEventModalOpen = true;
+    this.isAddEventModalOpen
+      ? (this.isAddEventModalOpen = false)
+      : (this.isAddEventModalOpen = true);
   }
 
   closeAddEventModal() {
@@ -51,57 +55,72 @@ export class RelationshipTimelineComponent implements OnInit, OnDestroy {
     this.newEvent = {
       title: '',
       date: '',
-      description: ''
+      description: '',
     };
   }
 
   addEvent() {
-
-    if (!this.newEvent.title || !this.newEvent.date || !this.newEvent.description) {
-      alert("Preencha todos os campos")
+    if (
+      !this.newEvent.title ||
+      !this.newEvent.date ||
+      !this.newEvent.description
+    ) {
+      alert('Preencha todos os campos');
     }
 
-    this.newEvent.date = formatDateToDDMMYYYY(this.newEvent.date)
+    this.newEvent.date = formatDateToDDMMYYYY(this.newEvent.date);
 
-      this.authService.currentUser$.subscribe(user => {
+    this.authService.currentUser$
+      .subscribe((user) => {
         if (user?.user.id) {
-          this.timelineService.addEvent({
-            userId: user.user.id,
-            ...this.newEvent
-          }).subscribe({
-            next: (event) => {
-            this.events.update(events => this.timelineService.setEvents([...events, event]))
-            alert("Evento adicionado")
-            this.closeAddEventModal();
-          },
-          error: (error) => {},
-          complete: () => {}
-        });
+          this.timelineService
+            .addEvent({
+              userId: user.user.id,
+              ...this.newEvent,
+            })
+            .subscribe({
+              next: (event) => {
+                this.events.update((events) =>
+                  this.timelineService.setEvents([...events, event])
+                );
+                this.closeAddEventModal();
+              },
+              error: (error) => {
+                alert('Algum erro ocorreu ao adicionar o evento');
+              },
+              complete: () => {},
+            });
         }
-      }).unsubscribe();
-
+      })
+      .unsubscribe();
   }
 
   deleteEvent(title: string) {
+    const rigthEvent = this.events().find((event) => {
+      return event.title === title;
+    });
 
-    const rigthEvent = this.events().find((event) => {return event.title === title})
-
-    if(window.confirm("Deseja mesmo deletar o evento?")){
-      this.timelineService.deleteEvent(rigthEvent.id).subscribe({
-      next: () => {
-        this.events.update(event => {
-            return this.timelineService.setEvents(event.filter(event => event.id !== rigthEvent.id))
+    if (window.confirm('Deseja mesmo deletar o evento?')) {
+      this.timelineService
+        .deleteEvent(rigthEvent.id)
+        .subscribe({
+          next: () => {
+            this.events.update((event) => {
+              return this.timelineService.setEvents(
+                event.filter((event) => event.id !== rigthEvent.id)
+              );
+            });
+          },
+          error: (error) => {
+            alert('Algum erro deletar ao adicionar o evento');
+          },
+          complete: () => {},
         })
-        alert("Evento deletado!")
-      },
-      error: (error) => {},
-      complete: () => {}
-    }).unsubscribe()
-  }
+        .unsubscribe();
+    }
   }
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
   }
-
 }
