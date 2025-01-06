@@ -2,7 +2,7 @@
   <h2>Nossa História</h2>
 
   <div class="timeline-container">
-    <div class="timeline-event" *ngFor="let event of events">
+    <div class="timeline-event" *ngFor="let event of events()">
       <div class="event-date">{{event.date | date: "dd/MM/yyyy"}}</div>
       <div class="event-content">
         <div class="event-header">
@@ -24,7 +24,7 @@
     [isOpen]="isAddEventModalOpen"
     title="Adicionar Momento"
     (close)="closeAddEventModal()">
-    <form class="add-timeline-form" (ngSubmit)="addEvent()" #eventForm="ngForm">
+    <form class="add-timeline-form" #eventForm="ngForm">
       <div class="form-group">
         <label for="eventTitle">Título</label>
         <input
@@ -54,7 +54,7 @@
       </div>
       <div class="form-actions">
         <button type="button" class="cancel-btn" (click)="closeAddEventModal()">Cancelar</button>
-        <button type="submit" class="submit-btn" [disabled]="!eventForm.valid">Adicionar</button>
+        <button type="submit" class="submit-btn" (click)="addEvent()" [disabled] ="!eventForm.valid">Adicionar</button>
       </div>
     </form>
   </app-modal>
