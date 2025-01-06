@@ -1,16 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ModalComponent } from '../../../../components/modal/modal.component';
 import { SpecialDatesService } from '../../../../services/specialDates.service';
 import { AuthService } from '../../../../services/auth.service';
 import { SpecialDate} from '../../../../models/specialDates.model';
-import { take
-
- } from 'rxjs';
-import { formatDateFromDB, formatDateToDDMMYYYY
-
- } from '../../../../components/formatDate';
+import { take } from 'rxjs';
+import { formatDateFromDB, formatDateToDDMMYYYY} from '../../../../components/formatDate';
 @Component({
   selector: 'app-special-dates',
   standalone: true,
@@ -18,9 +14,9 @@ import { formatDateFromDB, formatDateToDDMMYYYY
   templateUrl: './special-dates.component.html',
   styleUrls: ['./special-dates.component.scss']
 })
-export class SpecialDatesComponent implements OnInit {
+export class SpecialDatesComponent implements OnInit, OnDestroy {
   isAddDateModalOpen = false;
-  specialDates: any = [];
+  specialDates = signal<any[]>([])
   newDate = {
     title: '',
     date: '',
@@ -36,7 +32,8 @@ export class SpecialDatesComponent implements OnInit {
     daysLeft: '',
   };
 
-   user: any = ''
+  user: any = ''
+  subscription: any = false;
 
   constructor(
     private specialDatesService: SpecialDatesService,
@@ -44,10 +41,10 @@ export class SpecialDatesComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.authService.currentUser$.pipe(take(1)).subscribe({
+    this.subscription = this.authService.currentUser$.pipe(take(1)).subscribe({
       next: (user) => {
       if (user?.user.id) {
-        this.specialDates = user.user.specialDates.map(date => formatDateFromDB(date));
+        this.specialDates.set(user.user.specialDates.map(date => formatDateFromDB(date)))
         this.user = user.user
       }},
       error: (e) => {},
@@ -82,13 +79,12 @@ export class SpecialDatesComponent implements OnInit {
             title: this.newDate.title,
             date: this.newDate.date
           }).subscribe({
-            next: () => {
-              alert("Data adicionada")
+            next: (newDate) => {
+              this.specialDates.update((dates) => [...dates, {...newDate, date: formatDateFromDB(newDate)}.date])
             },
             error: () => {alert("Erro ao adicionar data")},
             complete: () => {
               this.closeAddDateModal()
-              window.location.reload()
             }
           });
         }
@@ -101,13 +97,12 @@ export class SpecialDatesComponent implements OnInit {
     this.specialDatesService.updateSpecialDate(id, date).subscribe();
   }
 
-  deleteDate(dateTitle: string) {
+  deleteDate(id: string) {
     if(window.confirm("Deseja realmente excluir a data?")){
-      const date = this.specialDates.find((date: {title: string, id: string}) => date.title === dateTitle)
+      const date = this.specialDates().find((date: {title: string, id: string}) => date.id === id)
       this.specialDatesService.deleteSpecialDate(date.id).subscribe({
         next: () => {
-          alert("Data deletada")
-          window.location.reload()
+          this.specialDates.update(dates => dates.filter((date_) => date_.id !== date.id));
         },
         error: () => {alert("Erro ao deletar registro")},
         complete: () => {}
@@ -116,10 +111,11 @@ export class SpecialDatesComponent implements OnInit {
   }
 
   private updateNextDate() {
-    if (this.specialDates.length > 0) {
+    if (this.specialDates().length > 0) {
       const today = new Date();
-      const upcomingDates = this.specialDates
-        .map((date: any) => ({
+      const upcomingDates = this.specialDates()
+        .map((date: any) => (
+          {
           ...date,
           daysLeft: this.calculateDaysLeft(date.date)
         }))
@@ -149,6 +145,10 @@ export class SpecialDatesComponent implements OnInit {
     const daysLeft = Math.ceil(timeDiff / (1000 * 3600 * 24));
 
     return daysLeft;
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 
 }

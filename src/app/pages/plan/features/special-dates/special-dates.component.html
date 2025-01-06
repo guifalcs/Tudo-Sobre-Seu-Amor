@@ -16,11 +16,11 @@
   </div>
 
   <div class="dates-list">
-    <div class="date-item" *ngFor="let date of specialDates">
+    <div class="date-item" *ngFor="let date of specialDates()">
       <span class="date-title">{{date.title}}</span>
       <span class="date-value">{{date.date}}</span>
       <div class="date-actions">
-        <button class="action-btn delete" title="Excluir" (click)="deleteDate(date.title)">×</button>
+        <button class="action-btn delete" title="Excluir" (click)="deleteDate(date.id)">×</button>
       </div>
     </div>
   </div>
