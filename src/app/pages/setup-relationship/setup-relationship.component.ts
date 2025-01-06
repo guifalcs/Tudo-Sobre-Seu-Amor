@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { RelationshipService} from '../../services/relationship.service';
-import formatDateToDDMMYYYY from '../../components/formatDate';
+import {formatDateToDDMMYYYY} from '../../components/formatDate';
 
 @Component({
   selector: 'app-setup-relationship',

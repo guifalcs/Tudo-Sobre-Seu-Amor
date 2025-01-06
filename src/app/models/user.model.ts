@@ -10,7 +10,14 @@ export interface User {
       price: number
     };
     status: string,
-    relationship: Relationship
+    relationship: Relationship,
+    specialDates: [
+      {
+      id: string,
+      title: string,
+      date: string,
+    }
+  ]
   }
 }
 

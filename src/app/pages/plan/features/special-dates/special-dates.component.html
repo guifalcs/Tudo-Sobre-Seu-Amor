@@ -21,7 +21,7 @@
       <span class="date-value">{{date.date}}</span>
       <div class="date-actions">
         <button class="action-btn edit" title="Editar">✎</button>
-        <button class="action-btn delete" title="Excluir">×</button>
+        <button class="action-btn delete" title="Excluir" (click)="deleteDate(date.title)">×</button>
       </div>
     </div>
   </div>
@@ -37,15 +37,15 @@
     <form class="add-date-form">
       <div class="form-group">
         <label for="dateTitle">Título</label>
-        <input type="text" id="dateTitle" placeholder="Ex: Primeiro Encontro">
+        <input type="text" id="dateTitle" placeholder="Ex: Primeiro Encontro" #title>
       </div>
       <div class="form-group">
         <label for="dateValue">Data</label>
-        <input type="date" id="dateValue">
+        <input type="date" id="dateValue" #date>
       </div>
       <div class="form-actions">
         <button type="button" class="cancel-btn" (click)="closeAddDateModal()">Cancelar</button>
-        <button type="submit" class="submit-btn">Adicionar</button>
+        <button type="submit" class="submit-btn" (click)="addDate(title, date)">Adicionar</button>
       </div>
     </form>
   </app-modal>
