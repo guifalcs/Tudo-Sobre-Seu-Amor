@@ -5,6 +5,9 @@ import { ModalComponent } from '../../../../components/modal/modal.component';
 import { SpecialDatesService } from '../../../../services/specialDates.service';
 import { AuthService } from '../../../../services/auth.service';
 import { SpecialDate} from '../../../../models/specialDates.model';
+import { take
+
+ } from 'rxjs';
 import { formatDateFromDB, formatDateToDDMMYYYY
 
  } from '../../../../components/formatDate';
@@ -41,10 +44,15 @@ export class SpecialDatesComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.authService.currentUser$.subscribe(user => {
+    this.authService.currentUser$.pipe(take(1)).subscribe({
+      next: (user) => {
       if (user?.user.id) {
         this.specialDates = user.user.specialDates.map(date => formatDateFromDB(date));
         this.user = user.user
+      }},
+      error: (e) => {},
+      complete: () => {
+        this.updateNextDate()
       }
     });
   }
@@ -67,9 +75,6 @@ export class SpecialDatesComponent implements OnInit {
       date: formatDateToDDMMYYYY(date.value)
     }
 
-    console.log(title)
-    console.log(date.value)
-
     if (this.newDate.title && this.newDate.date) {
         if (this.user?.id) {
           this.specialDatesService.addSpecialDate({
@@ -81,7 +86,10 @@ export class SpecialDatesComponent implements OnInit {
               alert("Data adicionada")
             },
             error: () => {alert("Erro ao adicionar data")},
-            complete: () => {this.closeAddDateModal()}
+            complete: () => {
+              this.closeAddDateModal()
+              window.location.reload()
+            }
           });
         }
     } else {
@@ -115,7 +123,6 @@ export class SpecialDatesComponent implements OnInit {
           ...date,
           daysLeft: this.calculateDaysLeft(date.date)
         }))
-        .filter((date: any) => date.daysLeft >= 0)
         .sort((a: any, b: any) => a.daysLeft - b.daysLeft);
 
       if (upcomingDates.length > 0) {
@@ -125,9 +132,23 @@ export class SpecialDatesComponent implements OnInit {
   }
 
   private calculateDaysLeft(dateStr: string): number {
-    const date = new Date(dateStr);
+    const [day, month] = dateStr.split('/').map(Number);
+
+    const currentYear = new Date().getFullYear();
+    const targetDate = new Date(currentYear, month - 1, day);
+
     const today = new Date();
-    const timeDiff = date.getTime() - today.getTime();
-    return Math.ceil(timeDiff / (1000 * 3600 * 24));
+    today.setHours(0, 0, 0, 0);
+
+    if (targetDate < today) {
+      targetDate.setFullYear(currentYear + 1);
+    }
+
+    const timeDiff = targetDate.getTime() - today.getTime();
+
+    const daysLeft = Math.ceil(timeDiff / (1000 * 3600 * 24));
+
+    return daysLeft;
   }
+
 }
