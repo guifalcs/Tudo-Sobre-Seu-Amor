@@ -17,6 +17,14 @@ export interface User {
       title: string,
       date: string,
     }
+  ],
+  timeline: [
+    {
+      id: string,
+      title: string,
+      description: string,
+      date: string,
+    }
   ]
   }
 }

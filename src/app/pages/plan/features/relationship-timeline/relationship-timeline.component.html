@@ -3,13 +3,12 @@
 
   <div class="timeline-container">
     <div class="timeline-event" *ngFor="let event of events">
-      <div class="event-date">{{event.date}}</div>
+      <div class="event-date">{{event.date | date: "dd/MM/yyyy"}}</div>
       <div class="event-content">
         <div class="event-header">
           <h3>{{event.title}}</h3>
           <div class="event-actions">
-            <button class="action-btn edit" title="Editar">✎</button>
-            <button class="action-btn delete" title="Excluir">×</button>
+            <button class="action-btn delete" title="Excluir" (click)="deleteEvent(event.title)">×</button>
           </div>
         </div>
         <p>{{event.description}}</p>

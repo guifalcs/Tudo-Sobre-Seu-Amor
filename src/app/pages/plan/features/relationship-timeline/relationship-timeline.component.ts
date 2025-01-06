@@ -1,7 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ModalComponent } from '../../../../components/modal/modal.component';
+import { TimelineService } from '../../../../services/timeline.service';
+import { AuthService } from '../../../../services/auth.service';
+import { formatDateToDDMMYYYY } from '../../../../components/formatDate';
+import { take } from 'rxjs';
 
 @Component({
   selector: 'app-relationship-timeline',
@@ -10,36 +14,34 @@ import { ModalComponent } from '../../../../components/modal/modal.component';
   templateUrl: './relationship-timeline.component.html',
   styleUrls: ['./relationship-timeline.component.scss']
 })
-export class RelationshipTimelineComponent {
+export class RelationshipTimelineComponent implements OnInit {
   isAddEventModalOpen = false;
   newEvent = {
     title: '',
     date: '',
     description: ''
   };
+  events: any[] = [];
+  user: any = ""
 
-  events = [
-    {
-      date: '15 Jan 2022',
-      title: 'Primeiro Encontro',
-      description: 'Café no Shopping'
-    },
-    {
-      date: '14 Fev 2022',
-      title: 'Início do Namoro',
-      description: 'Pedido especial no restaurante favorito'
-    },
-    {
-      date: '10 Jul 2022',
-      title: 'Primeira Viagem',
-      description: 'Final de semana na praia'
-    },
-    {
-      date: '25 Dez 2022',
-      title: 'Primeiro Natal Juntos',
-      description: 'Ceia em família'
-    }
-  ];
+  constructor(
+    private timelineService: TimelineService,
+    private authService: AuthService
+  ) {}
+
+  ngOnInit() {
+    this.authService.currentUser$.pipe(take(1)).subscribe({
+
+      next: (user) => {
+      if (user?.user.timeline) {
+        const sortedEvents = this.timelineService.setEvents(user.user.timeline);
+        this.events = sortedEvents
+      }},
+
+      error: (error) => {},
+      complete: () => {}
+    });
+  }
 
   openAddEventModal() {
     this.isAddEventModalOpen? this.isAddEventModalOpen = false : this.isAddEventModalOpen = true;
@@ -55,9 +57,47 @@ export class RelationshipTimelineComponent {
   }
 
   addEvent() {
+    this.newEvent.date = formatDateToDDMMYYYY(this.newEvent.date)
+
     if (this.newEvent.title && this.newEvent.date && this.newEvent.description) {
-      this.events.push({ ...this.newEvent });
-      this.closeAddEventModal();
+      this.authService.currentUser$.subscribe(user => {
+        if (user?.user.id) {
+          this.timelineService.addEvent({
+            userId: user.user.id,
+            ...this.newEvent
+          }).subscribe({
+            next: () => {
+            alert("Evento adicionado")
+            this.closeAddEventModal();
+          },
+          error: (error) => {},
+          complete: () => {
+            window.location.reload()
+          }
+        });
+        }
+      }).unsubscribe();
+    } else {
+      alert("Preencha todos os campos")
     }
+  }
+
+  deleteEvent(title: string) {
+
+    const rigthEvent = this.events.find((event) => {
+      event.title == title
+      return event
+    })
+
+    if(window.confirm("Deseja mesmo deletar o evento?")){
+      this.timelineService.deleteEvent(rigthEvent.id).subscribe({
+      next: () => {
+        alert("Evento deletado!")
+      },
+      error: (error) => {},
+      complete: () => {
+        window.location.reload()
+      }
+    })}
   }
 }
