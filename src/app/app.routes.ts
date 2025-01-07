@@ -20,7 +20,7 @@ export const routes: Routes = [
   { path: 'signup', component: SignupComponent },
   { path: 'plans/basico', component: BasicPlanComponent },
   { path: 'plans/romantico', component: RomanticoPlanComponent },
-  { path: 'plans/apaixonado', component: ApaixonadoPlanComponent },
+  // { path: 'plans/apaixonado', component: ApaixonadoPlanComponent },
   { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
   {
     path: 'dashboard',
