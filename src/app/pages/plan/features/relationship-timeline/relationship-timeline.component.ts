@@ -65,7 +65,7 @@ export class RelationshipTimelineComponent implements OnInit, OnDestroy {
       !this.newEvent.date ||
       !this.newEvent.description
     ) {
-      alert('Preencha todos os campos');
+      return alert('Preencha todos os campos');
     }
 
     this.newEvent.date = formatDateToDDMMYYYY(this.newEvent.date);

@@ -17,15 +17,23 @@ export interface User {
       title: string,
       date: string,
     }
-  ],
-  timeline: [
+  ];
+    timeline: [
     {
       id: string,
       title: string,
       description: string,
       date: string,
     }
-  ]
+  ];
+  wishlist: [
+    {
+      id: string,
+      title: string,
+      link: string,
+      purchased: boolean
+      }
+    ]
   }
 }
 
