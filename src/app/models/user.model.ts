@@ -31,9 +31,16 @@ export interface User {
       id: string,
       title: string,
       link: string,
-      purchased: boolean
       }
-    ]
+    ],
+  lovemap: [
+    {
+      id: string,
+      title: string,
+      subtitle: string,
+      location: string,
+    }
+  ]
   }
 }
 

@@ -2,12 +2,14 @@
   <h2>Mapa do Amor</h2>
 
   <div class="places-list">
-    <div class="place-card" *ngFor="let place of places">
-      <div class="place-icon">{{place.icon}}</div>
+    <div class="place-card" *ngFor="let place of places()">
       <div class="place-content">
-        <h3>{{place.name}}</h3>
-        <span class="place-type">{{place.type}}</span>
-        <p class="place-address">{{place.address}}</p>
+        <h3>{{place.title}}</h3>
+        <span class="place-type">{{place.subtitle}}</span>
+        <p class="place-address">{{place.location}}</p>
+      </div>
+      <div class="place-actions">
+        <button class="action-btn delete" (click)="deletePlace(place.id!)">×</button>
       </div>
     </div>
   </div>
@@ -18,25 +20,24 @@
 
   <app-modal
     [isOpen]="isAddPlaceModalOpen"
-    title="Adicionar Local Especial"
-    (close)="closeAddPlaceModal()">
-    <form  class="add-place-form" (ngSubmit)="addPlace()" #placeForm="ngForm">
+    (close)="closePlaceModal()">
+    <form #placeForm="ngForm">
       <div class="form-group">
         <label for="placeName">Nome do Local</label>
         <input
           type="text"
           id="placeName"
           name="name"
-          [(ngModel)]="newPlace.name"
+          [(ngModel)]="currentPlace.title"
           required>
       </div>
       <div class="form-group">
-        <label for="placeType">Tipo</label>
+        <label for="placeType">Descrição</label>
         <input
           type="text"
           id="placeType"
           name="type"
-          [(ngModel)]="newPlace.type"
+          [(ngModel)]="currentPlace.subtitle"
           required>
       </div>
       <div class="form-group">
@@ -45,12 +46,14 @@
           type="text"
           id="placeAddress"
           name="address"
-          [(ngModel)]="newPlace.address"
+          [(ngModel)]="currentPlace.location"
           required>
       </div>
       <div class="form-actions">
-        <button type="button" class="cancel-btn" (click)="closeAddPlaceModal()">Cancelar</button>
-        <button type="submit" class="submit-btn" [disabled]="!placeForm.valid">Adicionar</button>
+        <button type="button" class="cancel-btn" (click)="closePlaceModal()">Cancelar</button>
+        <button type="submit" class="submit-btn" (click)="addPlace()" [disabled]="!placeForm.valid">
+          Adicionar
+        </button>
       </div>
     </form>
   </app-modal>

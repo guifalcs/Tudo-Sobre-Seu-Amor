@@ -1,7 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ModalComponent } from '../../../../components/modal/modal.component';
+import { LoveMapService } from '../../../../services/lovemap.service';
+import { AuthService } from '../../../../services/auth.service';
 
 @Component({
   selector: 'app-love-map',
@@ -10,54 +12,71 @@ import { ModalComponent } from '../../../../components/modal/modal.component';
   templateUrl: './love-map.component.html',
   styleUrls: ['./love-map.component.scss']
 })
-export class LoveMapComponent {
+export class LoveMapComponent implements OnInit {
+  places = signal<any>([])
   isAddPlaceModalOpen = false;
-  newPlace = {
-    name: '',
-    type: '',
-    address: '',
-    icon: '📍'
+  currentPlace: any = {
+    title: '',
+    subtitle: '',
+    location: ''
   };
 
-  places = [
-    {
-      name: 'Café Amor',
-      type: 'Primeiro Encontro',
-      address: 'Rua das Flores, 123',
-      icon: '☕'
-    },
-    {
-      name: 'Praia do Sol',
-      type: 'Primeira Viagem',
-      address: 'Litoral Norte',
-      icon: '🏖️'
-    },
-    {
-      name: 'Restaurante Italiano',
-      type: 'Pedido de Namoro',
-      address: 'Av. Principal, 456',
-      icon: '🍝'
-    }
-  ];
+  constructor(
+    private loveMapService: LoveMapService,
+    private authService: AuthService
+  ) {}
 
-  openAddPlaceModal() {
-    this.isAddPlaceModalOpen? this.isAddPlaceModalOpen = false : this.isAddPlaceModalOpen = true;
+  ngOnInit() {
+    this.authService.currentUser$.subscribe((user: any) => {
+      if (user?.user.lovemap) {
+        this.places.set(user.user.lovemap)
+      }
+    });
   }
 
-  closeAddPlaceModal() {
+  openAddPlaceModal() {
+    this.currentPlace = { name: '', type: '', address: '' };
+    this.isAddPlaceModalOpen = true;
+  }
+
+
+  closePlaceModal() {
     this.isAddPlaceModalOpen = false;
-    this.newPlace = {
-      name: '',
-      type: '',
-      address: '',
-      icon: '📍'
-    };
+    this.currentPlace = { name: '', type: '', address: '' };
   }
 
   addPlace() {
-    if (this.newPlace.name && this.newPlace.type && this.newPlace.address) {
-      this.places.push({ ...this.newPlace });
-      this.closeAddPlaceModal();
+    if (!this.currentPlace.title || !this.currentPlace.subtitle || !this.currentPlace.location) return alert("Todos os campos devem ser preenchidos")
+
+      this.authService.currentUser$.subscribe(user => {
+        if (user?.user.id) {
+          this.loveMapService.addPlace({
+            userId: user.user.id,
+            title: this.currentPlace.title!,
+            subtitle: this.currentPlace.subtitle!,
+            location: this.currentPlace.location!
+          }).subscribe({
+            next: (place) => {
+              this.places.update((lovePlaces) => [...lovePlaces, place])
+              this.closePlaceModal()
+            },
+            error: (error) => alert("Erro ao adicionar local"),
+            complete: () => {}
+          });
+        }
+      }).unsubscribe();
+  }
+
+  deletePlace(id: string) {
+    if(window.confirm("Deseja deletar o local?")){
+      this.loveMapService.deletePlace(id).subscribe({
+        next: () => {
+          const updatedPlaces = this.places().filter((place: any) => place.id !== id);
+          this.places.set(updatedPlaces)
+        },
+        error: () => alert("Erro ao deletar local"),
+        complete: () => {}
+      });
     }
   }
 }
