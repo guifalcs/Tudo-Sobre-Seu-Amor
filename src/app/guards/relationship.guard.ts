@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { RelationshipService } from '../services/relationship.service';
 import { AuthService } from '../services/auth.service';
 
 @Injectable({
@@ -9,7 +8,6 @@ import { AuthService } from '../services/auth.service';
 export class RelationshipGuard {
   constructor(
     private router: Router,
-    private relationshipService: RelationshipService,
     private authService: AuthService
   ) {}
 
