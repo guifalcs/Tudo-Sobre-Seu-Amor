@@ -105,18 +105,14 @@ export class RelationshipTimelineComponent implements OnInit, OnDestroy {
         .deleteEvent(rigthEvent.id)
         .subscribe({
           next: () => {
-            this.events.update((event) => {
-              return this.timelineService.setEvents(
-                event.filter((event) => event.id !== rigthEvent.id)
-              );
-            });
+            const updatedEvents = this.events().filter((event) => event.id !== rigthEvent.id);
+            this.events.set(updatedEvents)
           },
           error: (error) => {
             alert('Algum erro deletar ao adicionar o evento');
           },
           complete: () => {},
         })
-        .unsubscribe();
     }
   }
 

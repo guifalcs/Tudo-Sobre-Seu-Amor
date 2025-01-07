@@ -41,15 +41,15 @@ export class SpecialDatesComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.subscription = this.authService.currentUser$.pipe(take(1)).subscribe({
+    this.subscription = this.authService.currentUser$.subscribe({
       next: (user) => {
       if (user?.user.id) {
         this.specialDates.set(user.user.specialDates.map(date => formatDateFromDB(date)))
         this.user = user.user
+        this.updateNextDate()
       }},
       error: (e) => {},
       complete: () => {
-        this.updateNextDate()
       }
     });
   }
@@ -81,12 +81,13 @@ export class SpecialDatesComponent implements OnInit, OnDestroy {
           }).subscribe({
             next: (newDate) => {
               this.specialDates.update((dates) => [...dates, {...newDate, date: formatDateFromDB(newDate)}.date])
+              this.closeAddDateModal()
             },
             error: () => {alert("Erro ao adicionar data")},
             complete: () => {
-              this.closeAddDateModal()
+             this.updateNextDate()
             }
-          });
+          })
         }
     } else {
       alert("Todos os campos devem ser preenchidos")
@@ -105,8 +106,11 @@ export class SpecialDatesComponent implements OnInit, OnDestroy {
           this.specialDates.update(dates => dates.filter((date_) => date_.id !== date.id));
         },
         error: () => {alert("Erro ao deletar registro")},
-        complete: () => {}
-      });
+        complete: () => {
+          this.updateNextDate()
+        }
+
+      })
     }
   }
 
