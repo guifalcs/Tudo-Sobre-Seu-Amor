@@ -34,7 +34,7 @@ export class RomanticoPlanComponent {
     },
     {
       title: 'Lembretes de todas as datas especiais',
-      description: 'Receba no seu email sempre que uma data especial cadastrada fizer aniversário.'
+      description: 'Receba no seu email sempre que uma data especial cadastrada fizer aniversário, além de aviso 1 semana antes do aniversário de relacionamento.'
     }
   ];
 }

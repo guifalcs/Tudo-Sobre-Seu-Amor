@@ -27,7 +27,7 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/plan/plan.component').then(m => m.PlanComponent),
     canActivate: [AuthGuard, SubscriptionGuard, RelationshipGuard],
   },
-  { path: 'contato', component: ContactComponent },
+  { path: 'contact', component: ContactComponent },
   { path: 'getSub', component: NoSubComponent },
   { path: 'plans', component: AllPlansComponent },
   {
