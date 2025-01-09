@@ -1,7 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import emailjs from '@emailjs/browser';
+import { environment } from '../../../environment/environment';
 
 @Component({
   selector: 'app-contact',
@@ -10,8 +12,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   templateUrl: './contact.component.html',
   styleUrl: './contact.component.scss'
 })
-export class ContactComponent {
-
+export class ContactComponent implements OnInit {
   contactForm: FormGroup;
   isSending = false;
   showSuccess = false;
@@ -20,8 +21,14 @@ export class ContactComponent {
     this.contactForm = this.fb.group({
       name: ['', [Validators.required]],
       email: ['', [Validators.required, Validators.email]],
-      subject: ['support'],
+      subject: [''],
       message: ['', [Validators.required, Validators.minLength(1)]]
+    });
+  }
+
+  ngOnInit() {
+    emailjs.init({
+      publicKey: environment.MAILJS_PUBLIC_KEY,
     });
   }
 
@@ -30,9 +37,32 @@ export class ContactComponent {
     return field ? field.invalid && (field.dirty || field.touched) : false;
   }
 
-  onSubmit() {
-   alert('ok')
-   this.contactForm.reset()
-  }
+  async onSubmit() {
+    if (this.contactForm.valid) {
+      this.isSending = true;
 
+      try {
+        const templateParams = {
+          to_email: 'tudosobreseuamor@gmail.com',
+          from_name: this.contactForm.value.name,
+          from_email: this.contactForm.value.email,
+          subject: this.contactForm.value.subject,
+          message: this.contactForm.value.message,
+        };
+
+        await emailjs.send(
+          environment.MAILJS_SERVICE_ID,
+          environment.MAILJS_TEMPLATE_ID,
+          templateParams
+        );
+
+        this.showSuccess = true;
+        this.contactForm.reset();
+      } catch (error) {
+        alert('Erro ao enviar mensagem. Por favor, tente novamente.');
+      } finally {
+        this.isSending = false;
+      }
+    }
+  }
 }
