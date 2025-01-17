@@ -15,4 +15,7 @@ interface Feature {
 })
 export class PlanDetailsCardComponent {
   @Input() features: Feature[] = [];
+  @Input() onSubmit: any;
+  @Input() userId: any
+  @Input() priceId: any
 }
