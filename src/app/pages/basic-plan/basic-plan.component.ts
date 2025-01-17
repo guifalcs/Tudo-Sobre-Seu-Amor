@@ -32,7 +32,7 @@ export class BasicPlanComponent {
     this.authService.currentUser$.subscribe(user => {
           if (user) {
             this.userId = user.user.id
-            this.onSubmit = subscriptionService.redirectToCheckout
+            this.onSubmit = this.subscriptionService.redirectToCheckout
           }
     })
 }
