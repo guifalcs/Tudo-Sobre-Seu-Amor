@@ -2,6 +2,9 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PlanSummaryCardComponent } from '../../components/plan-summary-card/plan-summary-card.component';
 import { PlanDetailsCardComponent } from '../../components/plan-details-card/plan-details-card.component';
+import { environment } from '../../../environment/environment';
+import { SubscriptionService } from '../../services/subscription.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-premium-plan',
@@ -18,6 +21,23 @@ export class RomanticoPlanComponent {
     'Cadastro de 5 datas epeciais',
     'Lembretes de todas as datas especiais',
   ];
+
+  onSubmit: any = () => {}
+    args: any = {}
+    userId: any = ''
+    priceId: any = environment.romantic_price_id
+
+    constructor(
+      private subscriptionService: SubscriptionService,
+      private authService: AuthService
+    ){
+      this.authService.currentUser$.subscribe(user => {
+        if (user) {
+          this.userId = user.user.id
+          this.onSubmit = subscriptionService.redirectToCheckout
+        }
+      })
+    }
 
   detailedFeatures = [
     {

@@ -29,7 +29,6 @@ export class BasicPlanComponent {
     private subscriptionService: SubscriptionService,
     private authService: AuthService
   ){
-
     this.authService.currentUser$.subscribe(user => {
           if (user) {
             this.userId = user.user.id
